@@ -1,5 +1,5 @@
 {
-  "name": "devtools",
+  "name": "apollo",
   "version": "1.0.0",
   "description": "Azure DevOps + Confluence integration for Claude Code",
   "author": {
@@ -16,7 +16,7 @@
       "sensitive": false
     },
     "ado_project": {
-      "description": "Azure DevOps project name (optionnel — si vide, le skill liste les projets disponibles et demande de choisir)",
+      "description": "Azure DevOps project name (optional — if empty, available projects will be listed for selection)",
       "sensitive": false
     }
   }
