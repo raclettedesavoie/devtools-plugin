@@ -1,0 +1,23 @@
+{
+  "name": "devtools",
+  "version": "1.0.0",
+  "description": "Azure DevOps + Confluence integration for Claude Code",
+  "author": {
+    "name": "Alexis Riviere",
+    "email": "alexis.riviere@apollossc.com"
+  },
+  "repository": "https://github.com/apollossc/devtools-plugin",
+  "dependencies": [
+    { "name": "atlassian", "marketplace": "claude-plugins-official" }
+  ],
+  "userConfig": {
+    "ado_org": {
+      "description": "Azure DevOps organization name (ex: apollo-ssc)",
+      "sensitive": false
+    },
+    "ado_project": {
+      "description": "Azure DevOps project name (optionnel — si vide, le skill liste les projets disponibles et demande de choisir)",
+      "sensitive": false
+    }
+  }
+}
