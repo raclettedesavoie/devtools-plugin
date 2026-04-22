@@ -19,20 +19,13 @@ claude --plugin-dir ./devtools-plugin
 
 Add to `~/.claude/settings.json`:
 
-```json
-{
-  "extraKnownMarketplaces": {
-    "apollossc": {
-      "source": "github",
-      "repo": "apollossc/devtools-plugin"
-    }
-  }
-}
+# 1. Enregistrer le marketplace (une seule fois)
+```
+claude plugin marketplace add https://github.com/raclettedesavoie/devtools-plugin
 ```
 
-Then:
-
-```bash
+# 2. Installer le plugin
+```
 claude plugin install apollo@apollossc
 ```
 

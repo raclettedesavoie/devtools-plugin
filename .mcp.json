@@ -12,6 +12,7 @@
         "envvar"
       ],
       "env": {
+        "AZURE_DEVOPS_ORG": "${AZURE_DEVOPS_ORG}",
         "AZURE_DEVOPS_ORG_URL": "${AZURE_DEVOPS_ORG_URL}",
         "ADO_MCP_AUTH_TOKEN": "${ADO_MCP_AUTH_TOKEN}"
       }
