@@ -1,8 +1,12 @@
 {
   "mcpServers": {
     "azure-devops": {
-      "command": "npx",
-      "args": ["-y", "@azure-devops/mcp", "apollo-ssc"]
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@azure-devops/mcp"],
+      "env": {
+        "AZURE_DEVOPS_ORG_URL": "${AZURE_DEVOPS_ORG_URL}",
+        "AZURE_DEVOPS_TOKEN": "${AZURE_DEVOPS_TOKEN}"
+      }
     }
   }
 }

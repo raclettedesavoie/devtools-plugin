@@ -8,7 +8,19 @@ description: Creates Azure DevOps tasks for the current git branch by detecting 
 
 Follow these steps in order:
 
-### Step 0 — Resolve the active project
+### Step 0 — Check credentials
+
+Before anything else, check if the Azure DevOps credentials are configured by reading `~/.claude/settings.json` and verifying that both `env.AZURE_DEVOPS_ORG_URL` and `env.AZURE_DEVOPS_TOKEN` are present and non-empty.
+
+**If either is missing or empty:**
+Tell the user:
+"Your Azure DevOps credentials are not configured yet. Let me set them up now."
+Then run `/apollo:setup` (invoke it as a skill/command) to guide the user through configuration before continuing.
+
+**If both are set:**
+Continue to Step 1.
+
+### Step 1 — Resolve the active project
 
 Check the value of `${user_config.ado_project}`:
 

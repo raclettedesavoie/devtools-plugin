@@ -1,0 +1,19 @@
+{
+  "name": "apollossc",
+  "owner": {
+    "name": "Alexis Riviere",
+    "email": "alexis.riviere@apollossc.com"
+  },
+  "plugins": [
+    {
+      "name": "apollo",
+      "description": "Azure DevOps + Confluence integration for Claude Code",
+      "version": "1.0.0",
+      "source": "./",
+      "author": {
+        "name": "Alexis Riviere",
+        "email": "alexis.riviere@apollossc.com"
+      }
+    }
+  ]
+}
