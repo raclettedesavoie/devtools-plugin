@@ -30,7 +30,7 @@ claude plugin install apollo@apollossc
 ```
 
 At activation you will be prompted for:
-- `ado_org` — Azure DevOps organization name (e.g. `apollo-ssc`)
+- `ado_org` — Azure DevOps organization name
 - `ado_project` — Azure DevOps project name (optional — leave empty to pick from a list at runtime)
 
 Confluence credentials are managed by the official Atlassian plugin.
