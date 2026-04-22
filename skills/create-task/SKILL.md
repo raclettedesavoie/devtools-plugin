@@ -75,6 +75,8 @@ Propose 3–5 tasks based on the US title, description, and Confluence spec (if 
 - Action-oriented (start with a verb: Implement, Write, Review, Update)
 - Specific to the US context
 - Between 5 and 15 words
+- If a task is clearly implied by the US description or spec, include it directly. If a task seems useful but is not explicitly mentioned in the source material, flag it separately and ask the user before including it: "I also thought of [task] — not explicitly in the spec, include it?"
+
 
 Show:
 "Here are the tasks I suggest for **US #[ID]**:
