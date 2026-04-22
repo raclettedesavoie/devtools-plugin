@@ -9,21 +9,26 @@ Configure the Apollo plugin by setting your Azure DevOps credentials in `~/.clau
 
 **Step 1 — Read current settings**
 
-Read the file at `C:\Users\$USERNAME\.claude\settings.json` (or `~/.claude/settings.json`). If it doesn't exist, treat it as `{}`.
+Read `~/.claude/settings.json`. If it doesn't exist, treat it as `{}`.
 
-Check if `env.AZURE_DEVOPS_ORG_URL` and `env.AZURE_DEVOPS_TOKEN` are already set.
+Check if these are already set under `env`:
+- `AZURE_DEVOPS_ORG` (org slug, e.g. `apollo-ssc`)
+- `AZURE_DEVOPS_ORG_URL` (full URL, e.g. `https://apollo-ssc.visualstudio.com/`)
+- `ADO_MCP_AUTH_TOKEN` (Personal Access Token)
 
 **Step 2 — Ask for missing values**
 
-If `AZURE_DEVOPS_ORG_URL` is not set, ask the user:
-> What is your Azure DevOps organization URL? (e.g. `https://your-org.visualstudio.com/` or `https://dev.azure.com/your-org/`)
+If `AZURE_DEVOPS_ORG` is not set, ask:
+> What is your Azure DevOps organization slug? (the subdomain, e.g. `apollo-ssc` from `apollo-ssc.visualstudio.com`)
 
-If `AZURE_DEVOPS_TOKEN` is not set, ask the user:
+If `AZURE_DEVOPS_ORG_URL` is not set, derive it automatically from the org slug: `https://<org>.visualstudio.com/`
+
+If `ADO_MCP_AUTH_TOKEN` is not set, ask:
 > What is your Azure DevOps Personal Access Token?
-> (Create one at: your-org.visualstudio.com → User Settings → Personal Access Tokens)
+> (Create one at: <org>.visualstudio.com → User Settings → Personal Access Tokens)
 > Minimum required scopes: Work Items (Read & Write), Code (Read)
 
-If both are already set, show their current values (mask the token: show only last 4 chars) and ask if the user wants to update them.
+If all values are already set, show current values (mask the token: last 4 chars only) and ask if the user wants to update them.
 
 **Step 3 — Write to settings.json**
 
@@ -32,18 +37,20 @@ Merge the values into the `env` section of `~/.claude/settings.json`:
 ```json
 {
   "env": {
-    "AZURE_DEVOPS_ORG_URL": "<value provided>",
-    "AZURE_DEVOPS_TOKEN": "<value provided>"
+    "AZURE_DEVOPS_ORG": "<org slug>",
+    "AZURE_DEVOPS_ORG_URL": "https://<org>.visualstudio.com/",
+    "ADO_MCP_AUTH_TOKEN": "<token>"
   }
 }
 ```
 
-Preserve all other existing fields in the file.
+Preserve all other existing fields.
 
 **Step 4 — Confirm and instruct**
 
-Show a success message with:
-- ✓ `AZURE_DEVOPS_ORG_URL` set
-- ✓ `AZURE_DEVOPS_TOKEN` set (masked)
+Show:
+- ✓ `AZURE_DEVOPS_ORG` set to `<value>`
+- ✓ `AZURE_DEVOPS_ORG_URL` set to `<value>`
+- ✓ `ADO_MCP_AUTH_TOKEN` set (…last 4 chars)
 
 Then tell the user: **Restart VS Code (or open a new Claude terminal session) for the changes to take effect.**

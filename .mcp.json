@@ -2,10 +2,18 @@
   "mcpServers": {
     "azure-devops": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "@azure-devops/mcp"],
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@azure-devops/mcp",
+        "${AZURE_DEVOPS_ORG}",
+        "--authentication",
+        "envvar"
+      ],
       "env": {
         "AZURE_DEVOPS_ORG_URL": "${AZURE_DEVOPS_ORG_URL}",
-        "AZURE_DEVOPS_TOKEN": "${AZURE_DEVOPS_TOKEN}"
+        "ADO_MCP_AUTH_TOKEN": "${ADO_MCP_AUTH_TOKEN}"
       }
     }
   }
