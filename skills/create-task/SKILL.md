@@ -89,10 +89,10 @@ You can add, remove, or edit tasks before I create them."
 Wait for confirmation or modifications ("remove #2", "change #3 to: ...", "add: ...").
 
 ### Step 7 — Create the tasks in Azure DevOps
+For each confirmed task:
 
-For each confirmed task, use Azure DevOps MCP to create a Task work item:
-- Title: the task title
-- Parent: the US ID
-- Area Path and Iteration Path: same as the parent US
-
-Confirm: "✓ Created [N] tasks linked to US #[ID] in Azure DevOps."
+Use the Azure DevOps MCP tool to create a Task work item with:
+Title: the task title — always pass "format": "Html" on the System.Title field, otherwise the API returns an error
+Parent: the US ID (to link it as a child) — use wit_work_items_link after creation with type: "parent", since System.Parent cannot be set directly at creation time
+Area Path and Iteration Path: same as the parent US (read from the US work item)
+After all tasks are created, confirm: "✓ Created [N] tasks linked to US #[ID] in Azure DevOps."
