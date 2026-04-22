@@ -10,75 +10,73 @@ Follow these steps in order:
 
 ### Step 0 — Check credentials
 
-Before anything else, check if the Azure DevOps credentials are configured by reading `~/.claude/settings.json` and verifying that both `env.AZURE_DEVOPS_ORG_URL` and `env.AZURE_DEVOPS_TOKEN` are present and non-empty.
+Read `~/.claude/settings.json`. Check that `env.AZURE_DEVOPS_ORG`, `env.AZURE_DEVOPS_ORG_URL`, and `env.ADO_MCP_AUTH_TOKEN` are all present and non-empty.
 
-**If either is missing or empty:**
-Tell the user:
-"Your Azure DevOps credentials are not configured yet. Let me set them up now."
-Then run `/apollo:setup` (invoke it as a skill/command) to guide the user through configuration before continuing.
+**If any is missing:** tell the user their credentials are not configured and invoke `/apollo:setup` before continuing.
 
-**If both are set:**
-Continue to Step 1.
+**If all are set:** continue.
 
 ### Step 1 — Resolve the active project
 
-Check the value of `${user_config.ado_project}`:
+Run `pwd` to get the current working directory. Read `.claude/settings.json` in that directory. Check `env.ADO_PROJECT`.
 
-**If `ado_project` is set and non-empty:**
-Use it as the active project. At the end of Step 0, show:
-"Working in project **${user_config.ado_project}**. Type 'change project' at any time to switch."
+**If `ADO_PROJECT` is set and non-empty:**
+Use it as the active project. Show:
+"Working in project **[ADO_PROJECT]**. Type 'change project' at any time to switch."
 
-**If `ado_project` is empty or not configured:**
-Use the Azure DevOps MCP tool to list all projects in the `${user_config.ado_org}` organization.
-Present the list to the user:
-"Which project do you want to work in?
-[numbered list of projects]"
-Wait for the user to select one by number or name.
-Use the selected project for all subsequent steps.
-After selection, tell the user:
-"To set this project as default and skip this question next time, update `ado_project` in your devtools plugin config to: **[selected project name]**"
+**If `ADO_PROJECT` is not set:**
+Use the Azure DevOps MCP tool to list all projects in the organization.
+Present the numbered list and wait for the user to select one.
 
-### Step 1 — Detect the current branch
+If the user provided a default project, merge it into `.claude/settings.json` in the current working directory:
 
-Run this bash command:
+```json
+{
+  "env": {
+    "ADO_PROJECT": "<project name>"
+  }
+}
+```
+
+Create the file if it doesn't exist. Preserve all other existing fields.
+
+### Step 2 — Detect the current branch
+
+Run:
 ```bash
 git rev-parse --abbrev-ref HEAD
 ```
 
-Extract the US number from the branch name using these patterns (case-insensitive):
+Extract the US number from the branch name (case-insensitive):
 - `feat/US-42-description` → 42
 - `ALRI/feat/US-42` → 42
 - `feat/42-description` → 42
 - `fix/us42-description` → 42
 
-### Step 2 — Confirm the User Story
+### Step 3 — Confirm the User Story
 
 **If a US number was found:**
-Use the Azure DevOps MCP tool to fetch the work item by ID.
-Show the user: "I found **US #[ID] — [title]**. Is this the right User Story?"
-- If yes → continue to Step 3
-- If no → ask the user for the correct US number, then fetch it
+Fetch the work item via Azure DevOps MCP. Show: "I found **US #[ID] — [title]**. Is this the right User Story?"
+- Yes → continue
+- No → ask for the correct ID and fetch it
 
 **If no US number was found:**
 Ask: "I couldn't find a US number in the branch name. What is the User Story ID?"
-Fetch it with the Azure DevOps MCP tool, then continue.
 
-### Step 3 — Optionally enrich with Confluence specs
+### Step 4 — Optionally enrich with Confluence specs
 
 Ask: "Would you like me to search Confluence for the spec related to this US? (recommended)"
 
-If yes:
-- Use the Confluence MCP tool to search for pages related to the US title
-- Use the most relevant page content to improve task generation
+If yes, use the Confluence MCP tool to find relevant pages and use the content to improve task generation.
 
-### Step 4 — Generate tasks
+### Step 5 — Generate tasks
 
-Based on the US title, description, and Confluence spec (if available), propose a list of 3–5 tasks. Each task title should be:
+Propose 3–5 tasks based on the US title, description, and Confluence spec (if available). Each task title must be:
 - Action-oriented (start with a verb: Implement, Write, Review, Update)
-- Specific to the US context (not generic like "Testing")
+- Specific to the US context
 - Between 5 and 15 words
 
-Show the list to the user:
+Show:
 "Here are the tasks I suggest for **US #[ID]**:
 1. [task 1]
 2. [task 2]
@@ -86,17 +84,15 @@ Show the list to the user:
 
 You can add, remove, or edit tasks before I create them."
 
-### Step 5 — Validate with the user
+### Step 6 — Validate with the user
 
-Wait for the user to confirm or modify the list.
-Accept free-text modifications ("remove #2", "change #3 to: ...", "add: ...").
+Wait for confirmation or modifications ("remove #2", "change #3 to: ...", "add: ...").
 
-### Step 6 — Create the tasks in Azure DevOps
+### Step 7 — Create the tasks in Azure DevOps
 
-For each confirmed task:
-1. Use the Azure DevOps MCP tool to create a Task work item with:
-   - Title: the task title
-   - Parent: the US ID (to link it as a child)
-   - Area Path and Iteration Path: same as the parent US (read from the US work item)
+For each confirmed task, use Azure DevOps MCP to create a Task work item:
+- Title: the task title
+- Parent: the US ID
+- Area Path and Iteration Path: same as the parent US
 
-After all tasks are created, confirm: "✓ Created [N] tasks linked to US #[ID] in Azure DevOps."
+Confirm: "✓ Created [N] tasks linked to US #[ID] in Azure DevOps."

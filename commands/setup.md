@@ -19,9 +19,10 @@ Check if these are already set under `env`:
 **Step 2 — Ask for missing values**
 
 If `AZURE_DEVOPS_ORG` is not set, ask:
-> What is your Azure DevOps organization slug? (the subdomain, e.g. `apollo-ssc` from `apollo-ssc.visualstudio.com`)
+> What is your Azure DevOps organization slug?
 
-If `AZURE_DEVOPS_ORG_URL` is not set, derive it automatically from the org slug: `https://<org>.visualstudio.com/`
+If `AZURE_DEVOPS_ORG_URL` is not set
+> What is your Azure DevOps organization URL?
 
 If `ADO_MCP_AUTH_TOKEN` is not set, ask:
 > What is your Azure DevOps Personal Access Token?
