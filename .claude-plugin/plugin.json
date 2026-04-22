@@ -9,19 +9,5 @@
   "repository": "https://github.com/apollossc/devtools-plugin",
   "dependencies": [
     { "name": "atlassian", "marketplace": "claude-plugins-official" }
-  ],
-  "userConfig": {
-    "ado_org": {
-      "title": "Azure DevOps Organization",
-      "description": "Azure DevOps organization name (ex: apollo-ssc)",
-      "type": "string",
-      "sensitive": false
-    },
-    "ado_project": {
-      "title": "Azure DevOps Project",
-      "description": "Azure DevOps project name (optional — if empty, available projects will be listed for selection)",
-      "type": "string",
-      "sensitive": false
-    }
-  }
+  ]
 }
