@@ -7,7 +7,4 @@
     "email": "alexis.riviere@apollossc.com"
   },
   "repository": "https://github.com/apollossc/devtools-plugin",
-  "dependencies": [
-    { "name": "atlassian", "marketplace": "claude-plugins-official" }
-  ]
 }
